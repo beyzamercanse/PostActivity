@@ -58,15 +58,13 @@
         app:rippleColor="#FFFFFF" />
 
     <Button
-        android:id="@+id/button_add"
+        android:id="@+id/button_select_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:text="사진 추가"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_save"
-        app:layout_constraintHorizontal_bias="0.611"
         app:layout_constraintStart_toStartOf="parent" />
 
 
