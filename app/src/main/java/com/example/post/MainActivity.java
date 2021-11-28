@@ -18,11 +18,23 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.post.databinding.ActivityMainBinding;
-import com.example.post.databinding.ActivityPostBinding;
+import android.app.Activity;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
-    public static Bitmap bitmap;
+    ActivityMainBinding binding;
+    private Uri imageUri;
+
+
+//    public static Bitmap bitmap;
+//    Uri selectedImage = data.getData();
+//    this.imageUri = selectedImage;
+//    Bitmap bitmap = Utils.loadBitmap(this, selectedImage);
+//    binding.image.setImageBitmap(bitmap);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +42,29 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.buttonSave.setOnClickListener(v -> startPostActivity());
-        binding.buttonAdd.setOnClickListener(v -> getPhoto());
+        binding.buttonSelectImage.setOnClickListener(v -> getPhoto());
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
+
+        binding.buttonSelectImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            requestPermissionLauncher.launch(String.valueOf(intent));
+        });
+        binding.buttonSave.setOnClickListener(v -> startPostActivity());
     }
 
     private void startPostActivity() {
         Intent intent = new Intent(this, PostActivity.class);
+        String name = binding.editText1.getText().toString();
+        String contents = binding.editText2.getText().toString();
+        
+        intent.putExtra("EXTRA_VALUE", name);
+        intent.putExtra("EXTRA_CONTENT", contents);
+        intent.putExtra("EXTRA_TIME", System.currentTimeMillis());
+        intent.putExtra("EXTRA_IMAGE", imageUri);
         startActivity(intent);
     }
 
